@@ -1,7 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+console.log(process.env.MONGO_URI, process.env.NEBIUS_API_KEY);
+
 import express from 'express';
 import router from './routes/index.js';
 import { logger } from './middleware/logger.js';
 import { notFoundHandler, errorHandler } from './middleware/error.js';
+import mongoose from 'mongoose';
 
 const app = express();
 
@@ -25,8 +31,14 @@ app.use(router);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+mongoose
+  .connect(process.env.MONGO_URI!)
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error('Connection error', err);
+  });
