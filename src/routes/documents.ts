@@ -13,7 +13,7 @@ const upload = multer({ dest: 'uploads/' });
 
 documentsRouter.use(auth);
 
-documentsRouter.post('/', createDocument);
+documentsRouter.post('/', upload.single('file'), createDocument);
 documentsRouter.get('/', getDocuments);
 documentsRouter.get('/:id', getDocumentById);
 documentsRouter.delete('/:id', deleteDocument);
