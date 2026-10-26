@@ -4,8 +4,8 @@ import {
   createChat,
   getChatById,
   deleteChat,
-  sendMessage,
 } from '../controllers/chats.js';
+import { createMessage } from '../controllers/messages.js';
 import { auth } from '../middleware/auth.js';
 
 const chatsRouter = Router();
@@ -16,6 +16,6 @@ chatsRouter.get('/', getChats);
 chatsRouter.post('/', createChat);
 chatsRouter.get('/:id', getChatById);
 chatsRouter.delete('/:id', deleteChat);
-chatsRouter.post('/:id/messages', sendMessage);
+chatsRouter.post('/:id/messages', createMessage);
 
 export { chatsRouter };
