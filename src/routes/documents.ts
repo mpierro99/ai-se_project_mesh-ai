@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import multer from 'multer';
 import {
   createDocument,
   getDocuments,
@@ -8,6 +9,7 @@ import {
 import { auth } from '../middleware/auth.js';
 
 const documentsRouter = Router();
+const upload = multer({ dest: 'uploads/' });
 
 documentsRouter.use(auth);
 
