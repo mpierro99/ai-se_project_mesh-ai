@@ -22,10 +22,6 @@ app.get('/health', (req, res): void => {
   });
 });
 
-app.get('/test-error', () => {
-  throw new Error('Test error');
-});
-
 app.use(router);
 
 app.use(notFoundHandler);

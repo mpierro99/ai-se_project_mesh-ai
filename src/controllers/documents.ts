@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import { readFileSync } from 'fs';
+import mongoose from 'mongoose';
 import { PDFParse } from 'pdf-parse';
 import Document from '../models/document.js';
 import Chunk from '../models/chunk.js';
@@ -50,10 +51,56 @@ export const getDocuments = async (req: Request, res: Response): Promise<void> =
   res.status(200).json({ success: true, data: documents, error: null });
 };
 
-export const getDocumentById = (req: Request, res: Response): void => {
-  res.status(200).json({ success: true, data: {}, error: null });
+export const getDocumentById = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.user!.userId;
+
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'Document not found' },
+    });
+    return;
+  }
+
+  const document = await Document.findOne({ _id: req.params.id, userId });
+
+  if (!document) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'Document not found' },
+    });
+    return;
+  }
+
+  res.status(200).json({ success: true, data: document, error: null });
 };
 
-export const deleteDocument = (req: Request, res: Response): void => {
+export const deleteDocument = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.user!.userId;
+
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'Document not found' },
+    });
+    return;
+  }
+
+  const document = await Document.findOneAndDelete({ _id: req.params.id, userId });
+
+  if (!document) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'Document not found' },
+    });
+    return;
+  }
+
+  await Chunk.deleteMany({ documentId: document._id });
+
   res.status(204).send();
 };

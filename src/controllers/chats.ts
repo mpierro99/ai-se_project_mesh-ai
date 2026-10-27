@@ -55,10 +55,30 @@ export const getChatById = async (req: Request, res: Response): Promise<void> =>
 };
 
 
-export const deleteChat = (req: Request, res: Response): void => {
-  res.status(204).send();
-};
+export const deleteChat = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.user!.userId;
 
-export const sendMessage = (req: Request, res: Response): void => {
-  res.status(201).json({ success: true, data: {}, error: null });
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'Chat not found' },
+    });
+    return;
+  }
+
+  const chat = await Chat.findOneAndDelete({ _id: req.params.id, userId });
+
+  if (!chat) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'Chat not found' },
+    });
+    return;
+  }
+
+  await Message.deleteMany({ chatId: chat._id });
+
+  res.status(204).send();
 };

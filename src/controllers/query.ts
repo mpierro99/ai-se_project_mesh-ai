@@ -55,7 +55,7 @@ export const askQuestion = async (req: Request, res: Response): Promise<void> =>
 
   res.status(200).json({
     success: true,
-    data: { question, chunks: ranked, answer },
+    data: { answer },
     error: null,
   });
 };

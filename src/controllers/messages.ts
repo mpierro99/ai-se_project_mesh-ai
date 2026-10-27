@@ -77,8 +77,8 @@ export const createMessage = async (req: Request, res: Response): Promise<void> 
   const answer = response.choices[0]!.message.content ?? 'No answer returned.';
 
   // Save both messages
-  const userMessage = await Message.create({ chatId, role: 'user', content: question });
-  const assistantMessage = await Message.create({ chatId, role: 'assistant', content: answer });
+  const userMessage = await Message.create({ chatId: chat._id, role: 'user', content: question });
+  const assistantMessage = await Message.create({ chatId: chat._id, role: 'assistant', content: answer });
 
   // Return both as an array
   res.status(201).json({
