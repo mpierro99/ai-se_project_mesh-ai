@@ -1,0 +1,68 @@
+.knowledge-base {
+  max-width: 670px;
+  margin: 0 auto;
+  padding-top: 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.knowledge-base__title {
+  font-family: "Space Grotesk", Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: #1c1c1c;
+}
+
+.knowledge-base__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.knowledge-base__label {
+  font-size: 18px;
+  line-height: 1;
+  color: #1c1c1c;
+}
+
+.knowledge-base__status {
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.knowledge-base__status_type_error {
+  color: #d93025;
+}
+
+.knowledge-base__list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.knowledge-base__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #1c1c1c0d;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #1c1c1c;
+}
+
+.knowledge-base__save-btn {
+  align-self: flex-start;
+  margin-top: 20px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #1c1c1c;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
