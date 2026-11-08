@@ -75,3 +75,40 @@
   font-weight: 500;
   line-height: 1;
 }
+
+@media (max-width: 768px) {
+  .intro {
+    padding: 32px 20px;
+  }
+
+  .intro__cards {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .intro__card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .intro__card-icon {
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .intro__start {
+    align-items: stretch;
+    width: 100%;
+    text-align: center;
+  }
+
+  .intro__subtitle {
+    line-height: 1.3;
+  }
+
+  .intro__button {
+    padding: 17px 16px;
+  }
+}

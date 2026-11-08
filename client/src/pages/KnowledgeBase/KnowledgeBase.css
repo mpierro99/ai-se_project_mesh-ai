@@ -66,3 +66,9 @@
   font-weight: 500;
   line-height: 1;
 }
+
+@media (max-width: 1200px) {
+  .knowledge-base__title {
+    font-size: 24px;
+  }
+}

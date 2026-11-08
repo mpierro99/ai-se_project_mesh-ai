@@ -1,3 +1,19 @@
 .app-layout__main {
   padding: 0 20px;
 }
+
+.app-layout__backdrop {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .app-layout__backdrop {
+    display: block;
+    position: fixed;
+    top: 61px;
+    inset-inline: 0;
+    bottom: 0;
+    background: rgb(0 0 0 / 0.3);
+    z-index: 99;
+  }
+}
