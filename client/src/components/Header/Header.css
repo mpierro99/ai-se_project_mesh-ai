@@ -36,6 +36,46 @@
   background-size: contain;
 }
 
+.header__account {
+  position: relative;
+}
+
+.header__dropdown-btn {
+  padding: 8px 12px;
+  border: 1px solid rgba(150, 121, 217, 0.2);
+  border-radius: 4px;
+  font-size: 16px;
+  color: #1c1c1c;
+  cursor: pointer;
+}
+
+.header__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 160px;
+  padding: 8px;
+  list-style: none;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 102;
+}
+
+.header__menu-item {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-align: left;
+  font-size: 16px;
+  color: #1c1c1c;
+  cursor: pointer;
+}
+
+.header__menu-item:hover {
+  background-color: #9679d933;
+}
+
 @media (max-width: 1200px) {
   .header {
     height: 61px;

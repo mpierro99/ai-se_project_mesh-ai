@@ -1,6 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useFormWithValidation } from "../../hooks/useFormWithValidation";
+import { registerUser } from "../../utils/api";
 
 function getNavLinkClass({ isActive }: { isActive: boolean }) {
   return isActive ? "form__tab form__tab_active" : "form__tab";
@@ -8,11 +10,19 @@ function getNavLinkClass({ isActive }: { isActive: boolean }) {
 
 export default function Register() {
   const { values, errors, isValid, handleChange } = useFormWithValidation();
+  const [submitError, setSubmitError] = useState("");
+  const navigate = useNavigate();
 
-  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!isValid) return;
-    console.log(values);
+    setSubmitError("");
+    try {
+      await registerUser(values.name, values.email, values.password);
+      navigate("/login");
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong");
+    }
   }
 
   return (
@@ -89,7 +99,9 @@ export default function Register() {
         <button className="form__submit-btn" type="submit" disabled={!isValid}>
           Create account
         </button>
-        <p className="form__status" role="alert"></p>
+        <p className="form__status" role="alert">
+          {submitError}
+        </p>
       </form>
     </div>
   );
