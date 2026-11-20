@@ -1,8 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-console.log(process.env.MONGO_URI, process.env.NEBIUS_API_KEY);
-
 import express from 'express';
 import router from './routes/index.js';
 import { logger } from './middleware/logger.js';
