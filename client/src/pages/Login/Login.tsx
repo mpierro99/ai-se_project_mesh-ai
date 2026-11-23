@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 import { useAuth } from "../../contexts/AuthContext";
@@ -14,6 +14,9 @@ export default function Login() {
   const [submitError, setSubmitError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from =
+    (location.state as { from?: string } | null)?.from ?? "/knowledge";
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,7 +26,7 @@ export default function Login() {
       const res = await loginUser(values.email, values.password);
       if (res.data) {
         login(res.data.token, res.data.user);
-        navigate("/knowledge");
+        navigate(from, { replace: true });
       }
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Something went wrong");
