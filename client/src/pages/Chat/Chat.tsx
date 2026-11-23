@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -28,6 +28,7 @@ export default function Chat() {
   const [messagesError, setMessagesError] = useState<string>("");
   const [input, setInput] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
+  const messagesEndRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -80,6 +81,10 @@ export default function Chat() {
     }
   };
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const handleSend = async () => {
     const text = input.trim();
     if (!text || !activeChatId || isSending) return;
@@ -99,7 +104,10 @@ export default function Chat() {
     try {
       const res = await sendMessage(activeChatId, text);
       if (res.data) {
-        setMessages((prev) => [...prev, res.data!]);
+        setMessages((prev) => [
+          ...prev.filter((m) => m._id !== userMessage._id),
+          ...res.data!,
+        ]);
       }
     } catch {
       setMessages((prev) => [
@@ -253,6 +261,12 @@ export default function Chat() {
                   )}
                 </li>
               ))}
+              {isSending && (
+                <li className="chat__message chat__message_role_assistant chat__message_thinking">
+                  Thinking…
+                </li>
+              )}
+              <li ref={messagesEndRef} />
             </ul>
 
             <div className="chat__input-bar">

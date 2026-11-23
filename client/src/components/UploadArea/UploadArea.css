@@ -48,3 +48,8 @@
     display: none;
   }
 }
+
+.upload-area_disabled {
+  opacity: 0.6;
+  cursor: progress;
+}

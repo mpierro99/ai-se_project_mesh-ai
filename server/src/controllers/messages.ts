@@ -6,7 +6,7 @@ import Document from '../models/document.js';
 import Chunk from '../models/chunk.js';
 import { createEmbedding } from '../utils/embeddings.js';
 import { rankBySimilarity } from '../utils/vector-search.js';
-import { getClient, LLM_MODEL, buildContext } from '../utils/openai-client.js';
+import { getClient, LLM_MODEL, buildContext, stripThinking } from '../utils/openai-client.js';
 
 export const createMessage = async (req: Request, res: Response): Promise<void> => {
   const { question } = req.body;
@@ -74,7 +74,7 @@ export const createMessage = async (req: Request, res: Response): Promise<void> 
     temperature: 0.2,
   });
 
-  const answer = response.choices[0]!.message.content ?? 'No answer returned.';
+  const answer = stripThinking(response.choices[0]!.message.content ?? '') || 'No answer returned.';
 
   // Save both messages
   const userMessage = await Message.create({ chatId: chat._id, role: 'user', content: question });

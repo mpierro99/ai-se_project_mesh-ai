@@ -3,7 +3,7 @@ import Chunk from '../models/chunk.js';
 import Document from '../models/document.js';
 import { createEmbedding } from '../utils/embeddings.js';
 import { rankBySimilarity } from '../utils/vector-search.js';
-import { getClient, LLM_MODEL, buildContext } from '../utils/openai-client.js';
+import { getClient, LLM_MODEL, buildContext, stripThinking } from '../utils/openai-client.js';
 
 export const askQuestion = async (req: Request, res: Response): Promise<void> => {
   const { question } = req.body;
@@ -51,7 +51,7 @@ export const askQuestion = async (req: Request, res: Response): Promise<void> =>
     temperature: 0.2,
   });
 
-  const answer = response.choices[0]!.message.content ?? 'No answer returned.';
+  const answer = stripThinking(response.choices[0]!.message.content ?? '') || 'No answer returned.';
 
   res.status(200).json({
     success: true,
